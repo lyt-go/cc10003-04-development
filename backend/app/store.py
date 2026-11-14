@@ -16,7 +16,9 @@ class Store:
         }
 
     def module_names(self) -> list[str]:
-        return sorted(self._tables)
+        # 以下划线开头的是内部表（快照版本、查询缓存、操作记录），
+        # 只服务聚合查询下钻链路，不进入运营概览的业务模块列表。
+        return sorted(name for name in self._tables if not name.startswith("_"))
 
     def rows(self, module: str) -> list[dict[str, Any]]:
         return self._tables.setdefault(module, [])

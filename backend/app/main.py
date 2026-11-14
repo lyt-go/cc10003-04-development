@@ -8,11 +8,15 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.bootstrap import ensure_seed_state
 from app.config import settings
 from app.routers import ROUTERS
 from app.store import store
 
 app = FastAPI(title="指标口径与分析实验平台", version="1.0.0")
+
+# 示例数据是静态的：为已启用的模板/路径补一份同版本快照与绑定，保证列表一打开就可下钻。
+ensure_seed_state()
 
 app.add_middleware(
     CORSMiddleware,
